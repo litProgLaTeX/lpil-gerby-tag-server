@@ -1,0 +1,8 @@
+
+baseDir: ~/ExpositionGit/fingerPieces
+
+dbPath: fingerPieces.sqlite
+
+documents:
+  - $baseDir/readme
+  - $baseDir/diagrams

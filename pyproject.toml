@@ -1,0 +1,21 @@
+[project]
+name = "lpilGerbyTagger"
+version = "0.0.1"
+description = "A simple python-flask website to maintain a collection of LPiL LaTeX document tags."
+authors = [
+    {name = "Stephen Gaito", email = "stephen@perceptisys.co.uk"},
+]
+dependencies = [
+    "pyyaml>=6.0",
+    "flask>=3.0.3",
+    "waitress>=3.0.0",
+]
+requires-python = ">=3.10"
+license = {text = "Apache2.0"}
+
+[project.scripts]
+lgtWebserver  = "lgtWebserver.cli:cli"
+
+[build-system]
+requires = ["pdm-pep517>=1.0.0"]
+build-backend = "pdm.pep517.api"
