@@ -22,7 +22,7 @@ def loadConfig(cmdArgs) :
       #}
     },
     'working_dir' : '.',
-    'port' : 5000,
+    'port' : 8890,
     'host' : "127.0.0.1",
     'verbose' : cmdArgs['verbose'],
     'quiet' : cmdArgs['quiet']
