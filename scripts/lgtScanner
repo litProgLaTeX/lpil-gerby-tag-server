@@ -23,15 +23,19 @@ with open(sys.argv[1]) as yamlFile :
 if 'baseDir' not in config :  config['baseDir'] = '~'
 baseDir = os.path.abspath(os.path.expanduser(config['baseDir']))
 
-if 'dbPath' not in config :
-  print("no dbPath specified in configuration")
+if 'tagsDatabase' not in config :
+  print("no tags database specified in configuration")
+  sys.exit(1)
+
+if 'localPath' not in config['tagsDatabase'] :
+  print("no local tags database specified in configuration")
   sys.exit(1)
 
 usedLabels = {}
 definedLabels = {}
 missingLabels = {}
 
-dbPath = config['dbPath'].replace('$baseDir', baseDir)
+dbPath = config['tagsDatabase']['localPath'].replace('$baseDir', baseDir)
 dbName = os.path.basename(dbPath).split('.')[0]
 with sqlite3.connect(dbPath) as db :
   dbCursor = db.cursor()

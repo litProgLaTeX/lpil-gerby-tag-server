@@ -8,10 +8,14 @@ import yaml
 
 if len(sys.argv) < 2 :
   print("""
-usage: lgtExporter <configPath>
+usage: lgtExporter <configPath> [<baseDir>]
 
-where <configPath> is the YAML configuration file defining what labels
-database to export.
+where:
+
+  <configPath> is the YAML configuration file defining what labels
+               database to export
+  <baseDir>    is the OPTIONAL baseDir used to override and baseDir in
+               the configuration specifide by configPath.
 
 """)
   sys.exit(1)
@@ -28,18 +32,28 @@ def int2tag(tagInt) :
     tagStr = '0' + tagStr
   return tagStr
 
+configPath = sys.argv[1]
+baseDir    = None
+if 2 < len(sys.argv) :
+  baseDir = sys.argv[2]
+
 config = {}
 with open(sys.argv[1]) as yamlFile :
   config = yaml.safe_load(yamlFile.read())
 
-if 'baseDir' not in config :  config['baseDir'] = '~'
-baseDir = os.path.abspath(os.path.expanduser(config['baseDir']))
+if not baseDir :
+  if 'baseDir' not in config :  config['baseDir'] = '~'
+  baseDir = os.path.abspath(os.path.expanduser(config['baseDir']))
 
-if 'dbPath' not in config :
-  print("no dbPath specified in configuration")
+if 'tagsDatabase' not in config :
+  print("no tags database specified in configuration")
   sys.exit(1)
 
-dbPath = config['dbPath'].replace('$baseDir', baseDir)
+if 'localPath' not in config['tagsDatabase'] :
+  print("no local tags database specified in configuration")
+  sys.exit(1)
+
+dbPath = config['tagsDatabase']['localPath'].replace('$baseDir', baseDir)
 dbName = os.path.basename(dbPath).split('.')[0]
 
 tagsPath = f'{dbName}.tags'
