@@ -27,7 +27,7 @@ class LabelDatabase(object) :
       sys.exit(1)
 
   def update(self, label, desc, inuse) :
-    print(label, desc, inuse)
+    #print(label, desc, inuse)
     with sqlite3.connect(self.dbPath) as con :
       cur = con.cursor()
       try :

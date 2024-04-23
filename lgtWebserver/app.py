@@ -106,7 +106,7 @@ def createDbApp(dbName, dbConfig, config) :
     if not aLabel : return redirectTo("/")
     results = db.findLabel(aLabel)
     if not results : results = [{ 'label' : aLabel, 'desc' : '', 'inuse' : 1 }]
-    print(yaml.dump(results[0]))
+    #print(yaml.dump(results[0]))
     return labelForm({
       'label'  : results[0]['label'],
       'desc'   : results[0]['desc'],
