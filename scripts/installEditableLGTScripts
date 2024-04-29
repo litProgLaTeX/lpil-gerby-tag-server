@@ -1,7 +1,0 @@
-#!/bin/bash
-
-cd scripts
-
-for aScript in $(ls lgt*); do
-  ln -fs $(pwd)/$aScript $HOME/.local/bin
-done

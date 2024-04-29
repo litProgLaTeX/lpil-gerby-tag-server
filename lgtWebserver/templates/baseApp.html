@@ -1,8 +1,8 @@
 {% extends "index.html" %}
 
 {% block body %}
-<h2>{{config['title']}}:</h2><ul>
-{% for aKey, aValue in config['databases'].items() %}
+<h2>{{config['tags.webserver.title']}}:</h2><ul>
+{% for aKey, aValue in config['tags.databases'].items() %}
   <li><a href="/{{aValue['baseUrl']}}/">{{aKey}}</a></li>
 {% endfor %}
 {% endblock %}

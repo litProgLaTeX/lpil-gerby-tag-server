@@ -25,20 +25,8 @@ in use.
 
 ### Utility scripts
 
-We have a number of very simple (sqlite3) based scripts which, using one
-of the mapping databases, can:
-
-- **create and import** an existing CSV file (as exported below) into a
-  mapping database
-
-- **export** the database to both a tags and CSV file (The CSV file can be
-  version controlled)
-
-- **scan** the database and specified documents for all LaTeX labels which
-  are:
-    - missing
-    - used
-    - defined
+See the sister repository
+[lpil-gerby-tag-tools](https://github.com/litProgLaTeX/lpil-gerby-tag-tools)
 
 ## Problems
 

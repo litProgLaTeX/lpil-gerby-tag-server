@@ -9,12 +9,13 @@ dependencies = [
     "pyyaml>=6.0",
     "flask>=3.0.3",
     "waitress>=3.0.0",
+    "lpilGerbyConfig @ git+https://github.com/litProgLaTeX/lpil-gerby-configuration.git",
 ]
 requires-python = ">=3.10"
 license = {text = "Apache2.0"}
 
 [project.scripts]
-lgtWebserver  = "lgtWebserver.cli:cli"
+lgtWebserver  = "lgtWebserver.webserver:cli"
 
 [build-system]
 requires = ["pdm-pep517>=1.0.0"]

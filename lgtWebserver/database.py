@@ -14,10 +14,10 @@ class LabelDatabase(object) :
     if 'logLevel' in dbConf :
       self.log.setLevel(dbConf['logLevel'])
 
-    if 'dbPath' not in self.dbConf :
-      self.dbConf['dbPath'] = f"{self.dbName}.sqlite"
+    if 'localPath' not in self.dbConf :
+      self.dbConf['localPath'] = f"{self.dbName}.sqlite"
     newDB = False
-    dbPath = self.dbConf['dbPath']
+    dbPath = self.dbConf['localPath']
     self.dbPath = dbPath
     self.log.info(f"Connecting to {dbPath}")
     if not os.path.isfile(dbPath) :
