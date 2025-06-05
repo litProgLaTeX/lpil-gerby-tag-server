@@ -1,3 +1,4 @@
+config.yaml
 working-*
 .pdm-python
 pdm.lock

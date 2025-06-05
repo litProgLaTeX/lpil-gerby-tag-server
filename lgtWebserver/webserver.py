@@ -1,19 +1,39 @@
 
 
-import argparse
+# import argparse
 import os
-import yaml
+import signal
+import sys
+# import yaml
 
 import logging
 logging.basicConfig(format='%(levelname)s:%(name)s:%(message)s')
 
-from waitress import serve
+from waitress import serve, wasyncore
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 
 from lgtWebserver.app import createDbApp, createBaseApp
 from lpilGerbyConfig.config import ConfigManager
 
+def sigtermHandler(signum, frame) :
+
+  # simply call sys.exit as this will raise a SystemExit exception which
+  # is then "handled" by Waitress and if we care, can be handled by our
+  # app.
+
+  # try raising the more specific ExitNow exception defined by
+  # waitress.wasyncore.... most of our application does not care... BUT
+  # our database update/insert operations should be protected.
+
+  raise wasyncore.ExitNow()
+
+  sys.exit(0)
+
+shutDownExceptions = (wasyncore.ExitNow, KeyboardInterrupt, SystemExit)
+
 def cli() :
+
+  signal.signal(signal.SIGTERM, sigtermHandler)
 
   # setup the command line arguments
   config = ConfigManager()
@@ -49,11 +69,11 @@ def cli() :
     flaskLogLevel = config['tags.webserver.flaskLogLevel']
     if flaskLogLevel :
       theApp.logger.setLevel(flaskLogLevel)
-    #theApp.config["EXPLAIN_TEMPLATE_LOADING"] = True
+    # theApp.config["EXPLAIN_TEMPLATE_LOADING"] = True
     dbApps[mountPoint] = theApp
 
   baseApp = createBaseApp(config)
-  #baseApp.config["EXPLAIN_TEMPLATE_LOADING"] = True
+  # baseApp.config["EXPLAIN_TEMPLATE_LOADING"] = True
   baseApp.template_folder = appTemplateFolder
 
   app = DispatcherMiddleware(baseApp, dbApps)
@@ -67,11 +87,17 @@ def cli() :
   # start the Flask App using Waitress
   if not config['quiet'] :
     print("\nYour Waitress will serve you on:")
-    print(f"  http://{config['tags.webserver.host']}:{config['tags.webserver.port']}")
+    print(f"  http://{config['tags.webserver.host']}:{config['tags.webserver.port']}")  # noqa
     print("")
 
-  serve(
-    app,
-    host=config['tags.webserver.host'],
-    port=config['tags.webserver.port'],
-  )
+  try :
+    serve(
+      app,
+      host=config['tags.webserver.host'],
+      port=config['tags.webserver.port'],
+    )
+  except shutDownExceptions :
+    pass
+
+  print("\nYour Waitress has left")
+

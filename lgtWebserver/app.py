@@ -1,4 +1,4 @@
-import yaml
+# import yaml
 
 from flask import Flask, render_template, request, redirect
 from lgtWebserver.database import LabelDatabase
@@ -61,7 +61,7 @@ def createDbApp(dbName, dbConfig, config) :
     formData = request.form.to_dict()
     if not formData['keywords'] : return redirectTo("/")
     results  = db.searchKeywords(formData['keywords'])
-    #print(yaml.dump(results))
+    # print(yaml.dump(results))
     return render_template(
       "keywordSearchResults.html",
       name=dbName,
@@ -106,7 +106,7 @@ def createDbApp(dbName, dbConfig, config) :
     if not aLabel : return redirectTo("/")
     results = db.findLabel(aLabel)
     if not results : results = [{ 'label' : aLabel, 'desc' : '', 'inuse' : 1 }]
-    #print(yaml.dump(results[0]))
+    # print(yaml.dump(results[0]))
     return labelForm({
       'label'  : results[0]['label'],
       'desc'   : results[0]['desc'],
@@ -121,6 +121,5 @@ def createDbApp(dbName, dbConfig, config) :
     if 'inuse' in formData : inuse = 1
     db.update(formData['label'], formData['desc'], inuse)
     return redirectTo("new")
-
 
   return app
