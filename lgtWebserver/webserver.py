@@ -21,6 +21,9 @@ def sigtermHandler(signum, frame) :
   # is then "handled" by Waitress and if we care, can be handled by our
   # app.
 
+  # consider sending and waiting for a Blinker signal followed by an
+  # ExitNow exception. This would provide a softer shutdown sequence.
+
   # try raising the more specific ExitNow exception defined by
   # waitress.wasyncore.... most of our application does not care... BUT
   # our database update/insert operations should be protected.
